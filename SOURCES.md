@@ -22,5 +22,6 @@ The Inner Monk is a formation tool, not an academic edition, official liturgical
 - Scripture quotations in generated rules are restricted to sayings and teachings of Jesus from the Gospels.
 - Historical dates and martyrdom details are presented cautiously when traditions differ.
 - The Witness of the Day rotation is an MVP content rotation, not a live Orthodox calendar.
-- Guidance on fasting, diet, exercise, compulsive behavior, or mental and physical health does not replace a physician, priest, confessor, or qualified professional.
+- Guidance on fasting, diet, exercise, compulsive behavior, or mental and physical health does not replace a physician, priest, pastoral guide, or qualified professional.
+- Reflection prompts redirect attention toward Christ and concrete obedience without soliciting graphic details, diagnosis, or automated moral judgment.
 - The Nicene-Constantinopolitan Creed remains central; the Apostles' Creed appears only as a historical Western note.

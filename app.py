@@ -384,7 +384,7 @@ def cell_path():
         "Body Temple",
         "Purity",
         "Practice",
-        "Examen",
+        "Return",
         "Seal",
         "Depart",
     ]
@@ -397,7 +397,7 @@ def primary_cell_path():
         "Scripture",
         "Body Temple",
         "Purity",
-        "Examen",
+        "Return",
         "Depart",
     ]
 
@@ -408,7 +408,7 @@ def visible_path_steps(active_step):
         return primary_steps
 
     if active_step in ["Cave Map", "Daily Order", "Witness", "Prayer Corner", "Renunciation", "Passion", "Cross and Resurrection", "Creed", "Prayer Rope", "Practice", "Seal"]:
-        return ["Opening", active_step, "Prayer", "Scripture", "Body Temple", "Purity", "Examen", "Depart"]
+        return ["Opening", active_step, "Prayer", "Scripture", "Body Temple", "Purity", "Return", "Depart"]
 
     return primary_steps
 
@@ -431,7 +431,8 @@ def chamber_step_index(chamber_name):
         "Passion": "Passion",
         "Prayer": "Prayer",
         "Seal": "Seal",
-        "Examen": "Examen",
+        "Return": "Return",
+        "Examen": "Return",
         "Departure": "Depart",
     }
     step_name = chamber_to_step.get(chamber_name)
@@ -710,7 +711,7 @@ def plain_text_rule(rule, renunciation=None):
             "Reflection Prompt",
             rule["reflection"],
             "",
-            "Examen",
+            "Questions of Return",
             *[f"- {question}" for question in examen],
             "",
             "Seal",
@@ -863,18 +864,18 @@ def journal_export_text(reflections, examens):
             )
 
     if examens:
-        lines.extend(["Evening Examen Entries", ""])
+        lines.extend(["Evening Returns", ""])
         for entry in examens:
             if entry.get("entry_type") == "paschal_rule_examen":
                 lines.extend(
                     [
                         entry.get("created_at", ""),
-                        f"Paschal Rule Examen: {entry.get('intensity', '')} / {entry.get('state', '')} / {entry.get('time', '')}",
+                        f"Paschal Rule Return: {entry.get('intensity', '')} / {entry.get('state', '')} / {entry.get('time', '')}",
                         f"Season: {entry.get('liturgical_season', '')}",
-                        f"What must be crucified: {entry.get('crucified', '')}",
-                        f"What Christ is raising: {entry.get('raised', '')}",
-                        f"Act of repair: {entry.get('repair', '')}",
-                        f"Mercy received: {entry.get('mercy', '')}",
+                        f"Pattern losing its hold: {entry.get('crucified', '')}",
+                        f"Life Christ is calling forth: {entry.get('raised', '')}",
+                        f"Next clean action: {entry.get('repair', '')}",
+                        f"Call back to Christ: {entry.get('mercy', '')}",
                         "",
                     ]
                 )
@@ -882,12 +883,12 @@ def journal_export_text(reflections, examens):
             lines.extend(
                 [
                     entry.get("created_at", ""),
-                    f"Passion: {entry.get('passion', '')}",
-                    f"Fled from Christ: {entry.get('fled_from_christ', '')}",
-                    f"Comfort over obedience: {entry.get('comfort_over_obedience', '')}",
-                    f"Wounded: {entry.get('wounded', '')}",
-                    f"Mercy received: {entry.get('mercy_received', '')}",
-                    f"Confess, repair, release: {entry.get('confess_repair_release', '')}",
+                    f"Pull resisted: {entry.get('ruling_pull', entry.get('passion', ''))}",
+                    f"Attention left Christ: {entry.get('attention_departure', entry.get('fled_from_christ', ''))}",
+                    f"False refuge: {entry.get('false_refuge', entry.get('comfort_over_obedience', ''))}",
+                    f"Mercy needed: {entry.get('mercy_needed', entry.get('wounded', ''))}",
+                    f"Call back to Christ: {entry.get('return_received', entry.get('mercy_received', ''))}",
+                    f"Next clean obedience: {entry.get('next_obedience', entry.get('confess_repair_release', ''))}",
                     "",
                 ]
             )
@@ -1118,14 +1119,14 @@ if rule is None:
     )
     st.session_state.entry_mode = st.radio(
         "Choose a chamber",
-        ["Daily Rule", "Church Fathers", "Evening Examen", "Private Journal"],
+        ["Daily Rule", "Church Fathers", "Evening Return", "Private Journal"],
         horizontal=True,
         index={"rule": 0, "fathers": 1, "examen": 2, "journal": 3}.get(st.session_state.entry_mode, 0),
         label_visibility="collapsed",
     )
     if st.session_state.entry_mode == "Church Fathers":
         st.session_state.entry_mode = "fathers"
-    elif st.session_state.entry_mode == "Evening Examen":
+    elif st.session_state.entry_mode == "Evening Return":
         st.session_state.entry_mode = "examen"
     elif st.session_state.entry_mode == "Private Journal":
         st.session_state.entry_mode = "journal"
@@ -1154,7 +1155,7 @@ if rule is None and st.session_state.entry_mode == "journal":
             <p>
                 A private spiritual notebook on this machine. No streaks, no charts,
                 no public display. Read only what helps repentance, gratitude,
-                confession, and return to Christ.
+                honest reflection, and return to Christ.
             </p>
         </div>
         """,
@@ -1180,27 +1181,27 @@ if rule is None and st.session_state.entry_mode == "journal":
     else:
         st.write("No rule reflections saved yet.")
 
-    st.markdown("### Evening Examen Entries")
+    st.markdown("### Evening Returns")
     if examens:
         for entry in examens[:5]:
-            with st.expander(entry.get("created_at", "Evening Examen")):
+            with st.expander(entry.get("created_at", "Evening Return")):
                 if entry.get("entry_type") == "paschal_rule_examen":
                     st.caption(
-                        f"Paschal Rule Examen: {entry.get('intensity', '')} / {entry.get('state', '')} / {entry.get('time', '')}"
+                        f"Paschal Rule Return: {entry.get('intensity', '')} / {entry.get('state', '')} / {entry.get('time', '')}"
                     )
-                    st.write(f"What must be crucified: {entry.get('crucified', '')}")
-                    st.write(f"What Christ is raising: {entry.get('raised', '')}")
-                    st.write(f"Act of repair: {entry.get('repair', '')}")
-                    st.write(f"Mercy received: {entry.get('mercy', '')}")
+                    st.write(f"Pattern losing its hold: {entry.get('crucified', '')}")
+                    st.write(f"Life Christ is calling forth: {entry.get('raised', '')}")
+                    st.write(f"Next clean action: {entry.get('repair', '')}")
+                    st.write(f"Call back to Christ: {entry.get('mercy', '')}")
                     continue
-                st.caption(f"Passion: {entry.get('passion', '')}")
-                st.write(f"Fled from Christ: {entry.get('fled_from_christ', '')}")
-                st.write(f"Comfort over obedience: {entry.get('comfort_over_obedience', '')}")
-                st.write(f"Wounded: {entry.get('wounded', '')}")
-                st.write(f"Mercy received: {entry.get('mercy_received', '')}")
-                st.write(f"Confess, repair, release: {entry.get('confess_repair_release', '')}")
+                st.caption(f"Pull resisted: {entry.get('ruling_pull', entry.get('passion', ''))}")
+                st.write(f"Attention left Christ: {entry.get('attention_departure', entry.get('fled_from_christ', ''))}")
+                st.write(f"False refuge: {entry.get('false_refuge', entry.get('comfort_over_obedience', ''))}")
+                st.write(f"Mercy needed: {entry.get('mercy_needed', entry.get('wounded', ''))}")
+                st.write(f"Call back to Christ: {entry.get('return_received', entry.get('mercy_received', ''))}")
+                st.write(f"Next clean obedience: {entry.get('next_obedience', entry.get('confess_repair_release', ''))}")
     else:
-        st.write("No evening examens saved yet.")
+        st.write("No evening returns saved yet.")
 
     if st.button("Return to the Threshold", use_container_width=True):
         st.session_state.entered_cell = False
@@ -1214,10 +1215,11 @@ if rule is None and st.session_state.entry_mode == "examen":
     st.markdown(
         """
         <div class="cell-note chamber-note">
-            <p class="kicker">Examen chamber</p>
+            <p class="kicker">Evening return</p>
             <p>
-                Stand before Christ beneath the Cross. Do not defend the day.
-                Do not dramatize the day. Tell the truth and let repentance remain free from despair.
+                Stop rehearsing the world. Gather the scattered mind and turn again
+                toward Jesus Christ. Receive a sober return to attention, mercy,
+                and the next clean obedience.
             </p>
         </div>
         """,
@@ -1225,43 +1227,47 @@ if rule is None and st.session_state.entry_mode == "examen":
     )
 
     with st.form("evening_examen_form"):
-        fled = st.text_area("Where did I flee from Christ today?")
-        comfort = st.text_area("Where did I seek comfort instead of obedience?")
-        wounded = st.text_area("Whom did I wound in thought, word, or deed?")
-        passion = st.selectbox(
-            "What passion seemed strongest?",
+        attention_departure = st.text_area("Where did my attention leave Christ today?")
+        false_refuge = st.text_area("What false refuge promised escape but left me less free?")
+        mercy_needed = st.text_area("Who needs mercy, patience, or repair from me?")
+        ruling_pull = st.selectbox(
+            "What most tried to rule the mind?",
             [
-                "Acedia",
+                "The feed",
+                "Lust / Flesh",
                 "Anger",
-                "Vainglory",
-                "Gluttony",
-                "Lust",
-                "Greed",
-                "Pride",
                 "Fear",
+                "Comfort",
+                "Approval",
+                "Control",
+                "Despair",
                 "I am not sure",
             ],
         )
-        mercy = st.text_area("What mercy did I receive?")
-        repair = st.text_area("What must I confess, repair, or release?")
-        saved = st.form_submit_button("Save Private Examen", use_container_width=True)
+        return_received = st.text_area("Where did Christ call me back to truth or mercy?")
+        next_obedience = st.text_area("What clean act of obedience begins now?")
+        saved = st.form_submit_button("Save Private Return", use_container_width=True)
 
     if saved:
         save_evening_examen(
             {
-                "fled_from_christ": fled.strip(),
-                "comfort_over_obedience": comfort.strip(),
-                "wounded": wounded.strip(),
-                "passion": passion,
-                "mercy_received": mercy.strip(),
-                "confess_repair_release": repair.strip(),
+                "entry_type": "evening_return",
+                "attention_departure": attention_departure.strip(),
+                "false_refuge": false_refuge.strip(),
+                "mercy_needed": mercy_needed.strip(),
+                "ruling_pull": ruling_pull,
+                "return_received": return_received.strip(),
+                "next_obedience": next_obedience.strip(),
             }
         )
         st.session_state.examen_saved = True
 
     if st.session_state.examen_saved:
-        st.success("Saved privately. Lord Jesus Christ, receive this day and teach me repentance without despair.")
-        st.caption(f"Saved locally to {EXAMEN_PATH}. This does not replace sacramental confession or guidance from a priest/spiritual father.")
+        st.success("Saved privately. Turn from the screen now and keep the next clean obedience.")
+        st.caption(
+            f"Saved locally to {EXAMEN_PATH}. If a pattern remains hidden, compulsive, or enslaving, "
+            "bring it to a priest and a trustworthy Christian brother. The app cannot absolve, shepherd, or stand beside you."
+        )
 
     if st.button("Return to the Threshold", use_container_width=True):
         st.session_state.entered_cell = False
@@ -1279,7 +1285,7 @@ if rule is None:
             <p class="kicker">Rule chamber</p>
             <p>
                 This is not monastic life itself, and it does not replace the Church,
-                confession, fasting guidance, or obedience to a spiritual father.
+                pastoral guidance, fasting guidance, or obedience to a spiritual father.
                 It is a small Christian cell: receive one rule, practice it,
                 and return to Christ with a quieter heart.
             </p>
@@ -1340,7 +1346,7 @@ if rule is None:
             RENUNCIATIONS,
         )
         world_pull = st.selectbox(
-            "Passion: what part of the world is pulling you?",
+            "Worldly pull: what is trying to capture your attention?",
             WORLD_PULLS,
             key="scroll_world_pull",
         )
@@ -1406,7 +1412,7 @@ if rule is None:
         )
         soul_state = st.selectbox("Burden: what is weighing on the soul?", SOUL_STATES)
         world_pull = st.selectbox(
-            "Passion: what is pulling you from Christ?",
+            "Worldly pull: what is drawing the mind away from Christ?",
             WORLD_PULLS,
             key="rule_world_pull",
         )
@@ -1563,7 +1569,7 @@ if rule:
                     <div><span>Body</span><strong>{rule['time']} of obedience</strong></div>
                     <div><span>Fast</span><strong>{st.session_state.digital_fast}</strong></div>
                 </div>
-                <p class="path-line">Main route: Prayer -> Scripture -> Body Temple -> Purity -> Examen -> Depart.</p>
+                <p class="path-line">Main route: Prayer -> Scripture -> Body Temple -> Purity -> Return -> Depart.</p>
                 <p class="path-note">Use Cave Map only when you want the deeper chambers.</p>
             </div>
             """,
@@ -1836,7 +1842,17 @@ if rule:
             unsafe_allow_html=True,
         )
         st.markdown(f"**{purity_rule['title']}**")
-        st.write("This chamber is for sober chastity, especially for men fighting lust, secrecy, fantasy, pornography, or fleshly habit. The body is not the enemy; slavery to passion is the enemy. Christ claims the whole man.")
+        st.write(
+            "This chamber is for men who need to break contact with the world's distorted pattern "
+            "and recover a mind turned toward Christ. Do not inspect the temptation, narrate it, or build an identity around it. "
+            "The body is not the enemy; slavery to images, appetite, and unreality is the enemy. Christ claims the whole man."
+        )
+        st.markdown("#### Immediate Return")
+        st.write("- Close the image, feed, search, or private window immediately.")
+        st.write("- Put the phone beyond reach and move into a public, well-lit, or active place.")
+        st.write("- Stand upright and pray the Jesus Prayer without bargaining with the urge.")
+        st.write("- Begin one concrete task, walk, or safe set of physical work.")
+        st.write("- If the pattern keeps returning, contact a trustworthy Christian brother or priest instead of returning to secrecy.")
         st.markdown("#### Watchfulness")
         st.write(purity_rule["watch"])
         st.markdown("#### Body")
@@ -1846,7 +1862,10 @@ if rule:
         st.markdown("#### Repair")
         st.write(purity_rule["repair"])
         st.markdown("#### Guardrail")
-        st.write("If this is compulsive, hidden, or harming your life, do not fight alone. Bring it into confession, pastoral care, and trusted brotherhood.")
+        st.write(
+            "Do not rehearse details or remain alone with the pattern. If it is compulsive, hidden, or enslaving, "
+            "step out of isolation: speak plainly with a priest and a trustworthy Christian brother who can pray, ask hard questions, and remain present."
+        )
     elif step_name == "Practice":
         st.markdown(
             f"""
@@ -1868,20 +1887,20 @@ if rule:
         st.write(get_watchfulness(rule["state"]))
         st.markdown("#### Guarding the Senses")
         st.write(get_sense_guard(rule["state"], st.session_state.renunciation))
-    elif step_name == "Examen":
-        st.markdown("#### Reflection Prompt")
-        render_paschal_thread(cross_thread, "Examen tells the truth beneath the Cross and looks for what Christ is raising from the tomb.")
+    elif step_name == "Return":
+        st.markdown("#### Return of the Mind")
+        render_paschal_thread(cross_thread, "Do not rehearse the fall. See what ruled the mind, turn again to Christ, and keep the next obedience.")
         st.write(rule["reflection"])
-        st.markdown("#### Examen")
+        st.markdown("#### Questions of Return")
         for question in examen:
             st.write(f"- {question}")
-        st.markdown("#### Private Paschal Examen")
+        st.markdown("#### Private Paschal Return")
         with st.form("paschal_examen_form"):
-            crucified = st.text_area("What must be crucified in me tonight?")
-            raised = st.text_area("What is Christ trying to raise in me?")
-            repair = st.text_area("What act of repair, mercy, or confession is needed?")
-            mercy = st.text_area("Where did I receive mercy today?")
-            saved = st.form_submit_button("Save Private Paschal Examen", use_container_width=True)
+            crucified = st.text_area("What false pattern must lose its hold?")
+            raised = st.text_area("What life is Christ calling me to practice?")
+            repair = st.text_area("What clean action, mercy, or repair begins now?")
+            mercy = st.text_area("Where did Christ call my mind back today?")
+            saved = st.form_submit_button("Save Private Paschal Return", use_container_width=True)
 
         if saved:
             if any([crucified.strip(), raised.strip(), repair.strip(), mercy.strip()]):
@@ -1899,7 +1918,7 @@ if rule:
                 st.warning("Write one honest sentence before saving.")
 
         if st.session_state.rule_examen_saved:
-            st.success("Saved privately. Let the Cross judge without despair, and the Resurrection raise what is dead.")
+            st.success("Saved privately. Leave the analysis behind and keep the next obedience in Christ.")
     elif step_name == "Seal":
         st.markdown("#### Seal")
         st.write(rule_seal(rule))

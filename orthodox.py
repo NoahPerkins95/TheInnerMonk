@@ -98,11 +98,11 @@ CHAMBER_MAP = [
     },
     {
         "name": "Purity",
-        "purpose": "Fight lust with watchfulness, chastity, confession, and return to Christ.",
+        "purpose": "Break contact with lust, recover watchfulness, and turn the whole man toward Christ.",
     },
     {
-        "name": "Examen",
-        "purpose": "Tell the truth before Christ without despair.",
+        "name": "Return",
+        "purpose": "Gather the mind from the world's false pattern and return to Christ.",
     },
     {
         "name": "Departure",
@@ -161,7 +161,7 @@ CHAMBER_STAGES = [
             },
             {
                 "name": "Purity",
-                "purpose": "Guard the eyes, imagination, and body for Christ.",
+                "purpose": "Break contact with unreality and guard the eyes, imagination, and body for Christ.",
             },
             {
                 "name": "Prayer",
@@ -174,8 +174,8 @@ CHAMBER_STAGES = [
         "purpose": "Tell the truth, seal the rule, and depart in peace.",
         "chambers": [
             {
-                "name": "Examen",
-                "purpose": "Tell the truth before Christ without despair.",
+                "name": "Return",
+                "purpose": "Gather the mind, receive mercy, and keep the next clean obedience.",
             },
             {
                 "name": "Seal",
@@ -933,14 +933,14 @@ PURITY_RULES = {
         "title": "Return Without Despair",
         "watch": "Do not argue with the image, fantasy, or urge. Turn away at once and say the Jesus Prayer once.",
         "body": "Stand up, drink water, and move to a public or well-lit place if possible.",
-        "mind": "Name the temptation plainly without details, then refuse to feed it with imagination.",
-        "repair": "If you fell, do not spiral. Repent, get up, and bring it to confession or spiritual guidance when needed. Despair is not repentance.",
+        "mind": "Do not study or narrate the temptation. Refuse it attention and turn the mind to the name of Jesus.",
+        "repair": "If you fell, do not spiral or rehearse it. Get up, restore a clean boundary, and seek spiritual guidance when the pattern persists. Despair is not repentance.",
     },
     "Balanced": {
         "title": "Custody of the Eyes",
         "watch": "Guard the first look. The second look is where consent begins to bargain.",
         "body": "Take a brisk walk, do ten slow squats, or complete one necessary task immediately.",
-        "mind": "Refuse secrecy. Lust grows in hidden negotiation; bring the thought into prayer before it becomes action.",
+        "mind": "Refuse secrecy and negotiation. Turn the mind to Christ before the image becomes a private world.",
         "repair": "Remove one near occasion: app, search, account, habit, or private setting that repeatedly opens the door.",
     },
     "Strong": {
@@ -948,7 +948,7 @@ PURITY_RULES = {
         "watch": "Do not make peace with the trigger. Cut off access quickly and without drama.",
         "body": "Cold water on the face, hard walk, kettlebell deadlifts, or physical labor until the body is obedient and calm.",
         "mind": "Remember the Cross: desire is not killed by shame, but crucified and raised as chastity.",
-        "repair": "Make a concrete boundary today. Tell a trusted Christian man, priest, or mentor if this has become a pattern. Do not keep a private kingdom for sin.",
+        "repair": "Make a concrete boundary today. Tell a trusted Christian man, priest, or mentor if this has become a pattern. Do not keep a private kingdom of unreality.",
     },
 }
 
