@@ -171,15 +171,15 @@ CHAMBER_STAGES = [
     },
     {
         "stage": "Return",
-        "purpose": "Tell the truth, seal the rule, and depart in peace.",
+        "purpose": "Return to Christ, receive the daily oath of service, and depart under the Cross.",
         "chambers": [
             {
                 "name": "Return",
                 "purpose": "Gather the mind, receive mercy, and keep the next clean obedience.",
             },
             {
-                "name": "Seal",
-                "purpose": "Receive one sentence to carry.",
+                "name": "Vigil and Oath",
+                "purpose": "Receive Christ's love, give Him today's allegiance, and take up the next obedience.",
             },
             {
                 "name": "Departure",

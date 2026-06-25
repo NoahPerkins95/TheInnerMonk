@@ -10,6 +10,8 @@ It does not pretend to replace the Church, the sacraments, pastoral guidance, pa
 
 Its movement is immediate return: break contact with the world's distorted pattern, recover watchfulness, turn the mind to Jesus Christ, and keep one clean obedience. It does not ask users to rehearse or catalog failures. Persistent or enslaving patterns should be brought out of isolation to a priest and a trustworthy Christian brother.
 
+The masculine formation layer uses the language of spiritual chivalry: Christ is Lord and King, the Cross is the standard, the passions and falsehood are the enemies, and strength is proven through chastity, courage, mercy, useful labor, protection of the weak, and hidden faithfulness. It never frames another human being as the enemy.
+
 The app asks for the kind of rule needed today, the user's state of soul, and the time available, then offers a simple rule with prayer, body discipline, mind discipline, and a reflection prompt. It also includes a "Tempted to scroll?" path for the moment when the user reaches for the feed and needs a short rule instead.
 
 To use the branded opening artwork, place the image at `assets/the-inner-monk-cover.png`.
@@ -26,7 +28,8 @@ To use the branded opening artwork, place the image at `assets/the-inner-monk-co
 
 - Daily Rule discernment by season, burden, passion, strength, time, holy hunger, digital fast, and prayer rope rule.
 - Daily Watchword generated from the rule context and carried through Opening, Prayer, Purity, Departure, and offline export.
-- Rule Silence timer for 5, 15, or 30 minutes, carrying the Watchword on a stripped-down practice screen.
+- Daily Oath of Service grounded in Christ's prior love, with a Rule of Spiritual Chivalry: Allegiance, Watchfulness, Courage, Mercy, and Faithfulness.
+- Vigil timer for 5, 15, or 30 minutes, carrying the Watchword and oath seal on a stripped-down practice screen.
 - Emergency anti-scroll discernment for restless, numb, avoiding, or lonely moments.
 - Opening threshold ritual before the user sees any controls: threshold, renunciation, invocation, and desire.
 - Ten-second stillness pause before a rule appears.
@@ -36,7 +39,7 @@ To use the branded opening artwork, place the image at `assets/the-inner-monk-co
 - Expanded Witness chamber with rotating saint, martyr, and holy witness stories, including how the witness suffered or was martyred, plus deeper reading, what the witness resisted, virtue, Cross/Resurrection meaning, theosis thread, imitation, small act, and reflection. This is an MVP rotation, not an official live Orthodox calendar.
 - Cross and Resurrection chamber that makes the whole rule Paschal: what must die, what risen life Christ gives, and one concrete practice.
 - Repeated Paschal Thread boxes in major chambers so Witness, Scripture, Creed, Prayer, Body Temple, Return, and Departure all return to the Cross and Resurrection.
-- Rule of Departure sends the user out with a final seal, Cross practice, Resurrection act of mercy, digital boundary, bodily obedience, Jesus Prayer, and command to leave the app.
+- Rule of Departure sends the user out under the Cross with allegiance, oath seal, Cross practice, Resurrection act of mercy, digital boundary, bodily obedience, Jesus Prayer, and command to serve.
 - Private Paschal Return inside the rule flow asks what false pattern must lose its hold, what life Christ is calling forth, and what clean obedience begins now.
 - Church Fathers library for self-exploration outside the daily rule, with historical trails through Apostolic Fire, Blood of the Martyrs, Desert Combat, Nicene Truth, Prayer of the Heart, Mercy and Repentance, and Theosis.
 - Local Fathers trail progress with Previous/Next Father, Mark as Read, and private notes saved to `data/fathers_progress.json`.

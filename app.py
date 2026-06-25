@@ -367,6 +367,38 @@ def digital_fast_vow(duration):
     )
 
 
+def daily_oath_of_service(rule, passion_virtue, watchword):
+    return {
+        "love": (
+            "Jesus Christ has loved me first, sought me in my wandering, borne the Cross, "
+            "and opened the way of risen life. I do not stand to earn His love. I stand because I have received it."
+        ),
+        "allegiance": (
+            "Today I give my attention, body, strength, speech, work, and desire to Jesus Christ, "
+            "my Lord and King."
+        ),
+        "renunciation": (
+            f"I refuse the rule of {passion_virtue['passion'].lower()}, the false promises of the world, "
+            "and every habit that makes me less able to love."
+        ),
+        "service": (
+            f"I will practice {passion_virtue['virtue'].lower()} through prayer, chastity, courage, mercy, "
+            "truth, useful labor, and protection of what God has entrusted to me."
+        ),
+        "watchword": watchword,
+        "seal": "The Cross before me. The risen Christ within me. The next obedience beneath my feet.",
+    }
+
+
+KNIGHTLY_RULE = [
+    ("Allegiance", "Christ alone is Lord. No appetite, feed, fear, status, or approval may take His place."),
+    ("Watchfulness", "Guard the eyes, imagination, tongue, and attention as gates entrusted by the King."),
+    ("Courage", "Do the difficult good without display, self-pity, cruelty, or escape."),
+    ("Mercy", "Strength is given to protect, forgive, serve, and lift burdens, never to despise another person."),
+    ("Faithfulness", "Keep the next commandment in the ordinary place where Christ has stationed you."),
+]
+
+
 def cell_path():
     return [
         "Opening",
@@ -385,7 +417,7 @@ def cell_path():
         "Purity",
         "Practice",
         "Return",
-        "Seal",
+        "Vigil and Oath",
         "Depart",
     ]
 
@@ -398,6 +430,7 @@ def primary_cell_path():
         "Body Temple",
         "Purity",
         "Return",
+        "Vigil and Oath",
         "Depart",
     ]
 
@@ -407,8 +440,8 @@ def visible_path_steps(active_step):
     if active_step in primary_steps:
         return primary_steps
 
-    if active_step in ["Cave Map", "Daily Order", "Witness", "Prayer Corner", "Renunciation", "Passion", "Cross and Resurrection", "Creed", "Prayer Rope", "Practice", "Seal"]:
-        return ["Opening", active_step, "Prayer", "Scripture", "Body Temple", "Purity", "Return", "Depart"]
+    if active_step in ["Cave Map", "Daily Order", "Witness", "Prayer Corner", "Renunciation", "Passion", "Cross and Resurrection", "Creed", "Prayer Rope", "Practice"]:
+        return ["Opening", active_step, "Prayer", "Scripture", "Body Temple", "Purity", "Return", "Vigil and Oath", "Depart"]
 
     return primary_steps
 
@@ -430,7 +463,8 @@ def chamber_step_index(chamber_name):
         "Purity": "Purity",
         "Passion": "Passion",
         "Prayer": "Prayer",
-        "Seal": "Seal",
+        "Seal": "Vigil and Oath",
+        "Vigil and Oath": "Vigil and Oath",
         "Return": "Return",
         "Examen": "Return",
         "Departure": "Depart",
@@ -575,6 +609,7 @@ def plain_text_rule(rule, renunciation=None):
     departure = departure_rule(rule, cross_thread)
     passion_virtue = get_passion_virtue(rule["state"], st.session_state.world_pull)
     watchword = daily_watchword(rule, passion_virtue, cross_thread)
+    oath = daily_oath_of_service(rule, passion_virtue, watchword)
     little_typikon = get_little_typikon(st.session_state.liturgical_moment, rule, passion_virtue)
     return "\n".join(
         [
@@ -585,6 +620,16 @@ def plain_text_rule(rule, renunciation=None):
             f"{st.session_state.liturgical_moment} / {st.session_state.liturgical_season} / {rule['intensity']} / {rule['state']} / {rule['time']}",
             seasonal_thread["tone"],
             f"Watchword: {watchword}",
+            "",
+            "Daily Oath of Service",
+            oath["love"],
+            oath["allegiance"],
+            oath["renunciation"],
+            oath["service"],
+            f"Seal: {oath['seal']}",
+            "",
+            "Rule of Spiritual Chivalry",
+            *[f"{name}: {meaning}" for name, meaning in KNIGHTLY_RULE],
             "",
             "Ascetic Aim",
             f"Healing: {aim['healing']}",
@@ -916,6 +961,8 @@ if "rule_silence_active" not in st.session_state:
     st.session_state.rule_silence_active = False
 if "rule_silence_started_at" not in st.session_state:
     st.session_state.rule_silence_started_at = None
+if "daily_oath_taken" not in st.session_state:
+    st.session_state.daily_oath_taken = False
 if "last_rule_id" not in st.session_state:
     st.session_state.last_rule_id = None
 if "reflection_saved" not in st.session_state:
@@ -1384,6 +1431,7 @@ if rule is None:
         st.session_state.rule_complete = False
         st.session_state.rule_silence_active = False
         st.session_state.rule_silence_started_at = None
+        st.session_state.daily_oath_taken = False
         st.session_state.reflection_saved = False
         st.session_state.rule_examen_saved = False
         st.rerun()
@@ -1465,6 +1513,7 @@ if rule is None:
         st.session_state.rule_complete = False
         st.session_state.rule_silence_active = False
         st.session_state.rule_silence_started_at = None
+        st.session_state.daily_oath_taken = False
         st.session_state.reflection_saved = False
         st.session_state.rule_examen_saved = False
         st.rerun()
@@ -1482,6 +1531,7 @@ if rule:
     seasonal_thread = get_seasonal_thread(st.session_state.liturgical_season)
     passion_virtue = get_passion_virtue(rule["state"], st.session_state.world_pull)
     watchword = daily_watchword(rule, passion_virtue, cross_thread)
+    oath = daily_oath_of_service(rule, passion_virtue, watchword)
     little_typikon = get_little_typikon(st.session_state.liturgical_moment, rule, passion_virtue)
 
     if st.session_state.rule_silence_active:
@@ -1494,17 +1544,17 @@ if rule:
         st.markdown(
             f"""
             <section class="silence-screen">
-                <p class="kicker">Rule silence</p>
+                <p class="kicker">Vigil beneath the Cross</p>
                 <h1>{format_silence_time(remaining)}</h1>
                 <p class="silence-watchword">{watchword}</p>
-                <p class="silence-instruction">Keep the rule now. No browsing. No measuring. Return to the name of Jesus.</p>
+                <p class="silence-instruction">{oath['seal']} Keep watch now. No browsing. No measuring. Return to the name of Jesus.</p>
             </section>
             """,
             unsafe_allow_html=True,
         )
         st.progress(progress_value)
         if remaining == 0:
-            st.success("Go in peace. Carry the Watchword into the next act of obedience.")
+            st.success("Rise and serve. Carry the Watchword into the next act of obedience.")
             if st.button("Depart", use_container_width=True):
                 st.session_state.rule_silence_active = False
                 st.session_state.rule_silence_started_at = None
@@ -1563,13 +1613,18 @@ if rule:
                     <span>Watchword</span>
                     <p>{watchword}</p>
                 </div>
+                <div class="allegiance-card compact">
+                    <span>Beloved and sent</span>
+                    <p>{oath['love']}</p>
+                    <strong>{oath['seal']}</strong>
+                </div>
                 <div class="path-grid">
                     <div><span>Prayer</span><strong>{st.session_state.prayer_rope_target} Jesus Prayers</strong></div>
                     <div><span>Scripture</span><strong>{scripture_reading['reference']}</strong></div>
                     <div><span>Body</span><strong>{rule['time']} of obedience</strong></div>
                     <div><span>Fast</span><strong>{st.session_state.digital_fast}</strong></div>
                 </div>
-                <p class="path-line">Main route: Prayer -> Scripture -> Body Temple -> Purity -> Return -> Depart.</p>
+                <p class="path-line">Main route: Prayer -> Scripture -> Body Temple -> Purity -> Return -> Vigil and Oath -> Depart.</p>
                 <p class="path-note">Use Cave Map only when you want the deeper chambers.</p>
             </div>
             """,
@@ -1919,12 +1974,61 @@ if rule:
 
         if st.session_state.rule_examen_saved:
             st.success("Saved privately. Leave the analysis behind and keep the next obedience in Christ.")
-    elif step_name == "Seal":
-        st.markdown("#### Seal")
-        st.write(rule_seal(rule))
+    elif step_name == "Vigil and Oath":
+        st.markdown("#### Vigil Before the Cross")
+        st.markdown(
+            f"""
+            <div class="oath-foundation">
+                <p class="kicker">Beloved before commanded</p>
+                <h3>You stand because Christ has loved you.</h3>
+                <p>{oath['love']}</p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        st.markdown("#### Rule of Spiritual Chivalry")
+        st.write(
+            "This is a daily rule of service, not a formal monastic vow and not a call to violence. "
+            "The struggle is against the passions, falsehood, cowardice, and the world's claim upon the mind. "
+            "No human being is the enemy."
+        )
+        st.markdown(
+            '<div class="chivalry-grid">'
+            + "".join(
+                f'<div class="chivalry-item"><span>{name}</span><p>{meaning}</p></div>'
+                for name, meaning in KNIGHTLY_RULE
+            )
+            + "</div>",
+            unsafe_allow_html=True,
+        )
+        st.markdown("#### Daily Oath of Service")
+        st.markdown(
+            f"""
+            <div class="daily-oath">
+                <p>{oath['allegiance']}</p>
+                <p>{oath['renunciation']}</p>
+                <p>{oath['service']}</p>
+                <p><strong>Watchword:</strong> {oath['watchword']}</p>
+                <footer>{oath['seal']}</footer>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        if not st.session_state.daily_oath_taken:
+            if st.button("Take Today's Oath", use_container_width=True):
+                st.session_state.daily_oath_taken = True
+                st.rerun()
+        else:
+            st.success("Oath received for today. Prove it through the next hidden obedience.")
         st.markdown("#### Rule Silence")
-        st.write(f"Begin {rule['time']} of silence with the Watchword. This is where the app stops giving content and sends you into practice.")
-        if st.button("Begin Rule Silence", use_container_width=True):
+        st.write(
+            f"Keep {rule['time']} of silence beneath the Watchword. Let the oath descend from language into attention, body, and action."
+        )
+        if st.button(
+            "Begin the Vigil",
+            use_container_width=True,
+            disabled=not st.session_state.daily_oath_taken,
+        ):
             st.session_state.rule_silence_active = True
             st.session_state.rule_silence_started_at = time.time()
             st.rerun()
@@ -1948,7 +2052,9 @@ if rule:
             f"""
             <div class="departure-rule">
                 <p class="kicker">Leave the cave now</p>
-                <h3>Depart in peace.</h3>
+                <h3>Depart under the Cross.</h3>
+                <p><strong>Allegiance:</strong> {oath['allegiance']}</p>
+                <p><strong>Oath seal:</strong> {oath['seal']}</p>
                 <p><strong>Watchword:</strong> {watchword}</p>
                 <p><strong>Seal:</strong> {departure['seal']}</p>
                 <p><strong>Carry the Cross:</strong> {departure['cross']}</p>
@@ -1961,7 +2067,12 @@ if rule:
             """,
             unsafe_allow_html=True,
         )
-        if st.button("Begin Rule Silence", use_container_width=True, key="depart_silence"):
+        if st.button(
+            "Begin the Vigil",
+            use_container_width=True,
+            key="depart_silence",
+            disabled=not st.session_state.daily_oath_taken,
+        ):
             st.session_state.rule_silence_active = True
             st.session_state.rule_silence_started_at = time.time()
             st.rerun()
@@ -1980,12 +2091,16 @@ if rule:
         st.session_state.cell_step = next_index
         st.rerun()
 
-    if step_name == "Depart" and st.button("Seal This Rule", use_container_width=True):
+    if step_name == "Depart" and st.button(
+        "Complete Today's Rule",
+        use_container_width=True,
+        disabled=not st.session_state.daily_oath_taken,
+    ):
         st.session_state.rule_complete = True
 
     if st.session_state.rule_complete:
         departure = departure_rule(rule, cross_thread)
-        st.success("Received and completed. Close the noise. Go in peace.")
+        st.success("The rule is received. Close the noise. Stand faithful and go serve in peace.")
         st.markdown(
             f"""
             <div class="exit-rule">
@@ -2017,6 +2132,7 @@ if rule:
             st.session_state.rule_complete = False
             st.session_state.rule_silence_active = False
             st.session_state.rule_silence_started_at = None
+            st.session_state.daily_oath_taken = False
             st.session_state.reflection_saved = False
             st.session_state.rule_examen_saved = False
             st.session_state.renunciation = None

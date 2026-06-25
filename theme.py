@@ -485,6 +485,110 @@ def apply_theme():
             margin: 0;
         }
 
+        .allegiance-card,
+        .oath-foundation,
+        .daily-oath {
+            background:
+                radial-gradient(circle at top, rgba(198, 161, 91, 0.18), transparent 12rem),
+                linear-gradient(135deg, rgba(198, 161, 91, 0.13), rgba(198, 161, 91, 0.025)),
+                rgba(8, 7, 5, 0.82);
+            border: 1px solid rgba(198, 161, 91, 0.34);
+            border-left: 2px solid var(--gold);
+            border-radius: 18px;
+            box-shadow:
+                inset 0 1rem 2rem rgba(255, 235, 180, 0.025),
+                inset 0 -1.5rem 3rem rgba(0, 0, 0, 0.30);
+            margin: 1rem 0 1.2rem;
+            padding: 1.15rem;
+        }
+
+        .allegiance-card.compact {
+            margin: 0.8rem 0 1rem;
+        }
+
+        .allegiance-card span {
+            color: var(--gold);
+            display: block;
+            font-size: 0.72rem;
+            letter-spacing: 0.16rem;
+            margin-bottom: 0.45rem;
+            text-transform: uppercase;
+        }
+
+        .allegiance-card p,
+        .oath-foundation p {
+            color: var(--muted);
+            line-height: 1.65;
+            margin-bottom: 0.65rem;
+        }
+
+        .allegiance-card strong {
+            color: var(--ink);
+            display: block;
+            font-family: Georgia, "Times New Roman", serif;
+            font-weight: 400;
+            line-height: 1.55;
+        }
+
+        .oath-foundation h3 {
+            font-size: 1.55rem;
+            margin: 0.2rem 0 0.75rem;
+        }
+
+        .chivalry-grid {
+            display: grid;
+            gap: 0.7rem;
+            grid-template-columns: 1fr 1fr;
+            margin: 1rem 0 1.25rem;
+        }
+
+        .chivalry-item {
+            background: rgba(0, 0, 0, 0.24);
+            border: 1px solid rgba(198, 161, 91, 0.18);
+            border-radius: 14px;
+            padding: 0.9rem;
+        }
+
+        .chivalry-item:last-child {
+            grid-column: 1 / -1;
+        }
+
+        .chivalry-item span {
+            color: var(--gold);
+            display: block;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1rem;
+            margin-bottom: 0.35rem;
+        }
+
+        .chivalry-item p {
+            color: var(--muted);
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .daily-oath {
+            border-color: var(--gold);
+            padding: 1.35rem;
+        }
+
+        .daily-oath p {
+            color: var(--ink);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.05rem;
+            line-height: 1.7;
+        }
+
+        .daily-oath footer {
+            border-top: 1px solid rgba(198, 161, 91, 0.24);
+            color: var(--gold);
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.6;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            text-align: center;
+        }
+
         .silence-screen {
             align-items: center;
             background:
@@ -1296,6 +1400,9 @@ def apply_theme():
             .todays-path-card,
             .father-profile,
             .fathers-path-card,
+            .allegiance-card,
+            .oath-foundation,
+            .daily-oath,
             .seasonal-thread,
             .paschal-thread,
             .departure-rule,
@@ -1309,6 +1416,14 @@ def apply_theme():
                 flex-wrap: nowrap;
                 overflow-x: auto;
                 padding-bottom: 0.3rem;
+            }
+
+            .chivalry-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .chivalry-item:last-child {
+                grid-column: auto;
             }
 
             .trail-steps span {
