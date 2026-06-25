@@ -29,6 +29,7 @@ To use the branded opening artwork, place the image at `assets/the-inner-monk-co
 - Daily Rule discernment by season, burden, passion, strength, time, holy hunger, digital fast, and prayer rope rule.
 - Daily Watchword generated from the rule context and carried through Opening, Prayer, Purity, Departure, and offline export.
 - Daily Oath of Service grounded in Christ's prior love, with a Rule of Spiritual Chivalry: Allegiance, Watchfulness, Courage, Mercy, and Faithfulness.
+- One-tap Stand to Arms rescue passage: break contact, remember allegiance, pray, move, break isolation if needed, keep a five-minute vigil, and return to service.
 - Vigil timer for 5, 15, or 30 minutes, carrying the Watchword and oath seal on a stripped-down practice screen.
 - Emergency anti-scroll discernment for restless, numb, avoiding, or lonely moments.
 - Opening threshold ritual before the user sees any controls: threshold, renunciation, invocation, and desire.

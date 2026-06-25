@@ -589,6 +589,145 @@ def apply_theme():
             text-align: center;
         }
 
+        .stand-to-arms-entry {
+            background:
+                radial-gradient(circle at top right, rgba(156, 56, 42, 0.20), transparent 12rem),
+                rgba(8, 7, 5, 0.78);
+            border: 1px solid rgba(198, 161, 91, 0.28);
+            border-left: 2px solid var(--gold);
+            border-radius: 18px;
+            margin: 1rem 0 0.75rem;
+            padding: 1rem 1.1rem;
+        }
+
+        .stand-to-arms-entry h3 {
+            font-size: 1.45rem;
+            margin: 0.15rem 0 0.45rem;
+        }
+
+        .stand-to-arms-entry p:last-child {
+            color: var(--muted);
+            margin: 0;
+        }
+
+        .stand-to-arms-hero {
+            background:
+                radial-gradient(circle at top, rgba(198, 161, 91, 0.20), transparent 16rem),
+                linear-gradient(180deg, rgba(30, 22, 14, 0.96), rgba(8, 7, 5, 0.98));
+            border: 1px solid rgba(198, 161, 91, 0.34);
+            border-radius: 26px 26px 18px 18px;
+            box-shadow: 0 1.6rem 4rem rgba(0, 0, 0, 0.38);
+            margin: 0.75rem 0 1rem;
+            padding: 1.7rem;
+            text-align: center;
+        }
+
+        .stand-to-arms-hero h1 {
+            font-size: 2.65rem;
+            margin: 0.2rem 0 0.7rem;
+        }
+
+        .stand-to-arms-hero > p:not(.kicker) {
+            color: var(--muted);
+            line-height: 1.7;
+            margin: 0 auto;
+            max-width: 42rem;
+        }
+
+        .rescue-seal {
+            border-top: 1px solid rgba(198, 161, 91, 0.24);
+            color: var(--gold);
+            font-family: Georgia, "Times New Roman", serif;
+            line-height: 1.55;
+            margin-top: 1.1rem;
+            padding-top: 1rem;
+            text-align: center;
+        }
+
+        .rescue-progress {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: center;
+            margin: 1rem 0;
+        }
+
+        .rescue-progress span {
+            align-items: center;
+            background: rgba(8, 7, 5, 0.72);
+            border: 1px solid rgba(198, 161, 91, 0.20);
+            border-radius: 999px;
+            color: var(--muted);
+            display: flex;
+            font-size: 0.78rem;
+            height: 2rem;
+            justify-content: center;
+            width: 2rem;
+        }
+
+        .rescue-progress span.complete {
+            background: rgba(198, 161, 91, 0.12);
+            color: var(--gold);
+        }
+
+        .rescue-progress span.active {
+            background: var(--gold);
+            border-color: var(--gold);
+            color: #100d08;
+        }
+
+        .rescue-step {
+            background:
+                linear-gradient(135deg, rgba(198, 161, 91, 0.09), rgba(198, 161, 91, 0.015)),
+                rgba(8, 7, 5, 0.72);
+            border: 1px solid rgba(198, 161, 91, 0.28);
+            border-radius: 20px;
+            min-height: 22rem;
+            padding: 1.5rem;
+        }
+
+        .rescue-step h2 {
+            font-size: 2rem;
+            margin: 0.25rem 0 1rem;
+        }
+
+        .rescue-step p,
+        .rescue-step blockquote {
+            color: var(--muted);
+            line-height: 1.75;
+        }
+
+        .rescue-step blockquote,
+        .rescue-command,
+        .rescue-prayer {
+            border-left: 2px solid var(--gold);
+            color: var(--ink) !important;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.15rem;
+            margin: 1.2rem 0;
+            padding: 0.7rem 0 0.7rem 1rem;
+        }
+
+        .rescue-prayer {
+            font-size: 1.35rem;
+            text-align: center;
+        }
+
+        .rescue-note {
+            border-top: 1px solid rgba(198, 161, 91, 0.18);
+            font-size: 0.92rem;
+            margin-top: 1.25rem;
+            padding-top: 1rem;
+        }
+
+        .rescue-timer {
+            color: var(--gold);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 4rem;
+            line-height: 1;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
         .silence-screen {
             align-items: center;
             background:
@@ -1403,6 +1542,9 @@ def apply_theme():
             .allegiance-card,
             .oath-foundation,
             .daily-oath,
+            .stand-to-arms-hero,
+            .stand-to-arms-entry,
+            .rescue-step,
             .seasonal-thread,
             .paschal-thread,
             .departure-rule,
@@ -1410,6 +1552,18 @@ def apply_theme():
             .prayer-rope-panel {
                 border-radius: 16px;
                 padding: 1rem;
+            }
+
+            .stand-to-arms-hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .rescue-step {
+                min-height: 0;
+            }
+
+            .rescue-timer {
+                font-size: 3.2rem;
             }
 
             .trail-steps {

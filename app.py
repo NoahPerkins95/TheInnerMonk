@@ -70,6 +70,232 @@ def format_silence_time(seconds):
     return f"{minutes:02d}:{remainder:02d}"
 
 
+STAND_TO_ARMS_STEPS = [
+    "Break Contact",
+    "Remember Allegiance",
+    "Pray",
+    "Move",
+    "Break Isolation",
+    "Keep Vigil",
+    "Return to Service",
+]
+
+
+def start_stand_to_arms():
+    st.session_state.stand_to_arms_active = True
+    st.session_state.stand_to_arms_step = 0
+    st.session_state.stand_to_arms_started_at = datetime.now().isoformat(timespec="seconds")
+    st.session_state.stand_to_arms_vigil_started_at = None
+
+
+def leave_stand_to_arms():
+    st.session_state.stand_to_arms_active = False
+    st.session_state.stand_to_arms_step = 0
+    st.session_state.stand_to_arms_started_at = None
+    st.session_state.stand_to_arms_vigil_started_at = None
+
+
+def render_stand_to_arms():
+    step = max(0, min(st.session_state.stand_to_arms_step, len(STAND_TO_ARMS_STEPS) - 1))
+    step_name = STAND_TO_ARMS_STEPS[step]
+    can_advance = True
+
+    st.markdown(
+        """
+        <section class="stand-to-arms-hero">
+            <p class="kicker">Immediate passage</p>
+            <h1>Stand to Arms</h1>
+            <p>
+                Christ has loved you and called you into freedom. Do not debate the image,
+                the feed, or the fantasy. Break contact, gather the mind, and return to Him.
+            </p>
+            <div class="rescue-seal">The Cross before me. The risen Christ within me.</div>
+        </section>
+        """,
+        unsafe_allow_html=True,
+    )
+
+    st.markdown(
+        "<div class=\"rescue-progress\">"
+        + "".join(
+            f"<span class=\"{'active' if index == step else 'complete' if index < step else ''}\">"
+            f"{index + 1}</span>"
+            for index in range(len(STAND_TO_ARMS_STEPS))
+        )
+        + "</div>",
+        unsafe_allow_html=True,
+    )
+
+    if step_name == "Break Contact":
+        st.markdown(
+            """
+            <div class="rescue-step">
+                <p class="kicker">First command</p>
+                <h2>Break contact now.</h2>
+                <p class="rescue-command">
+                    Close the page. Put the phone face down and beyond reach.
+                    Turn your eyes toward a plain, real thing in the room.
+                </p>
+                <p>
+                    Temptation asks for a conversation. Give it no audience.
+                    You are not required to inspect, explain, or narrate it.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    elif step_name == "Remember Allegiance":
+        st.markdown(
+            """
+            <div class="rescue-step">
+                <p class="kicker">Remember whose you are</p>
+                <h2>You belong to Jesus Christ.</h2>
+                <p>
+                    You do not stand in order to earn His love. You stand because the
+                    crucified and risen Lord has already loved you, sought you, and called
+                    you out of slavery into life.
+                </p>
+                <blockquote>
+                    I renounce the false refuge. My mind, body, and strength belong to Christ.
+                    No human being is my enemy. I will guard what He has entrusted to me.
+                </blockquote>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    elif step_name == "Pray":
+        st.markdown(
+            """
+            <div class="rescue-step">
+                <p class="kicker">Prayer of the heart</p>
+                <h2>Pray twelve times, slowly.</h2>
+                <p class="rescue-prayer">
+                    Lord Jesus Christ, Son of God, have mercy on me.
+                </p>
+                <p>
+                    Stand or kneel. Breathe without strain. Do not chase a feeling.
+                    Let the Holy Name gather the scattered mind beneath the Cross.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    elif step_name == "Move":
+        st.markdown(
+            """
+            <div class="rescue-step">
+                <p class="kicker">Body under obedience</p>
+                <h2>Change your bodily state.</h2>
+                <p class="rescue-command">
+                    Take a brisk walk, do ten controlled squats or push-ups, or perform
+                    ten safe kettlebell deadlifts. Then drink water.
+                </p>
+                <p>
+                    Use strength to serve clarity, not to punish the body. Stop for pain,
+                    dizziness, or loss of sound form.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    elif step_name == "Break Isolation":
+        st.markdown(
+            """
+            <div class="rescue-step">
+                <p class="kicker">If needed</p>
+                <h2>Do not let secrecy become a room.</h2>
+                <p>
+                    Most passing temptations do not require a message. Continue quietly in
+                    watchfulness. But if the pattern is persistent, compulsive, or repeatedly
+                    returning in secrecy, contact a trustworthy Christian brother, priest,
+                    or mature mentor today.
+                </p>
+                <p class="rescue-note">
+                    This step is a guardrail, not a performance and not a forced disclosure.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+    elif step_name == "Keep Vigil":
+        if st.session_state.stand_to_arms_vigil_started_at is None:
+            st.session_state.stand_to_arms_vigil_started_at = datetime.now().isoformat(timespec="seconds")
+        vigil_started = datetime.fromisoformat(st.session_state.stand_to_arms_vigil_started_at)
+        vigil_ends = vigil_started.timestamp() + 300
+        remaining = max(0, int(vigil_ends - datetime.now().timestamp()))
+        st.markdown(
+            f"""
+            <div class="rescue-step vigil-step">
+                <p class="kicker">Five-minute watch</p>
+                <h2>Remain away from the feed.</h2>
+                <div class="rescue-timer">{format_silence_time(remaining)}</div>
+                <p>
+                    Keep the phone down. Sit, walk, tidy the room, or begin one honest task.
+                    Return when the five minutes have passed and continue.
+                </p>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+        if remaining > 0 and st.button("Refresh the Vigil", use_container_width=True):
+            st.rerun()
+        can_advance = remaining == 0
+    else:
+        st.markdown(
+            """
+            <div class="rescue-step">
+                <p class="kicker">The field of service</p>
+                <h2>Return to the next faithful thing.</h2>
+                <p class="rescue-command">
+                    Choose one concrete act of service: finish the task before you, clean
+                    what is neglected, help someone near you, or begin the work you avoided.
+                </p>
+                <p>
+                    Freedom is not merely the absence of temptation. It is strength restored
+                    to love God and neighbor in the ordinary place where you stand.
+                </p>
+                <div class="rescue-seal">Under the Cross. In the risen life. Back to service.</div>
+            </div>
+            """,
+            unsafe_allow_html=True,
+        )
+
+    back_col, advance_col = st.columns(2)
+    if back_col.button(
+        "Leave This Passage" if step == 0 else "Previous Step",
+        use_container_width=True,
+        key="stand_to_arms_back",
+    ):
+        if step == 0:
+            leave_stand_to_arms()
+        else:
+            st.session_state.stand_to_arms_step = step - 1
+        st.rerun()
+
+    if step < len(STAND_TO_ARMS_STEPS) - 1:
+        labels = {
+            "Break Contact": "Contact Broken",
+            "Remember Allegiance": "I Remember",
+            "Pray": "Prayer Kept",
+            "Move": "Body Moved",
+            "Break Isolation": "Continue the Watch",
+            "Keep Vigil": "Vigil Kept",
+        }
+        if advance_col.button(
+            labels[step_name],
+            use_container_width=True,
+            key="stand_to_arms_advance",
+            disabled=not can_advance,
+        ):
+            st.session_state.stand_to_arms_step = step + 1
+            st.rerun()
+    elif advance_col.button("Return to Service", use_container_width=True, key="stand_to_arms_finish"):
+        leave_stand_to_arms()
+        st.session_state.entered_cell = False
+        st.session_state.threshold_step = 0
+        st.rerun()
+
+
 def get_cover_image_path():
     if COVER_IMAGE_PATH.exists():
         return COVER_IMAGE_PATH
@@ -999,6 +1225,18 @@ if "examen_saved" not in st.session_state:
     st.session_state.examen_saved = False
 if "rule_examen_saved" not in st.session_state:
     st.session_state.rule_examen_saved = False
+if "stand_to_arms_active" not in st.session_state:
+    st.session_state.stand_to_arms_active = False
+if "stand_to_arms_step" not in st.session_state:
+    st.session_state.stand_to_arms_step = 0
+if "stand_to_arms_started_at" not in st.session_state:
+    st.session_state.stand_to_arms_started_at = None
+if "stand_to_arms_vigil_started_at" not in st.session_state:
+    st.session_state.stand_to_arms_vigil_started_at = None
+
+if st.session_state.stand_to_arms_active:
+    render_stand_to_arms()
+    st.stop()
 
 if not st.session_state.entered_cell and st.session_state.rule is None:
     threshold_steps = ["Stand at the Mouth", "Renounce", "Invoke Christ", "Name the Hunger"]
@@ -1065,6 +1303,20 @@ if not st.session_state.entered_cell and st.session_state.rule is None:
         + "</div>",
         unsafe_allow_html=True,
     )
+
+    st.markdown(
+        """
+        <div class="stand-to-arms-entry">
+            <p class="kicker">When the battle is immediate</p>
+            <h3>Do not wait to feel ready.</h3>
+            <p>Enter a short rescue passage for temptation, compulsion, or the pull of the feed.</p>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    if st.button("Stand to Arms", use_container_width=True, key="threshold_stand_to_arms"):
+        start_stand_to_arms()
+        st.rerun()
 
     if threshold_name == "Stand at the Mouth":
         st.markdown(
@@ -1137,6 +1389,7 @@ if not st.session_state.entered_cell and st.session_state.rule is None:
         st.session_state.world_pull = st.session_state.threshold_renunciation
         st.session_state.monastic_longing = st.session_state.threshold_desire
         st.rerun()
+
     st.stop()
 
 st.markdown(
@@ -1365,55 +1618,60 @@ if rule is None:
         """
         <div class="chamber-form-title">
             <p class="kicker">Emergency passage</p>
-            <h3>Tempted to scroll?</h3>
-            <p>Do not negotiate with the feed. Name the pull, receive a short obedience, and let the impulse die under the Cross.</p>
+            <h3>Need immediate help?</h3>
+            <p>Use the short rescue passage now, without completing a form.</p>
         </div>
         """,
         unsafe_allow_html=True,
     )
-    with st.form("scroll_form"):
-        scroll_moment = st.radio(
-            "Moment: when are you entering?",
-            LITURGICAL_MOMENTS,
-            horizontal=True,
-            key="scroll_moment",
-        )
-        scroll_season = st.selectbox(
-            "Season: what season are you entering?",
-            LITURGICAL_SEASONS,
-            key="scroll_liturgical_season",
-        )
-        scroll_state = st.radio(
-            "Feed pull: what is happening right now?",
-            SCROLL_STATES,
-            horizontal=True,
-        )
-        renunciation = st.selectbox(
-            "Renunciation: what are you turning from?",
-            RENUNCIATIONS,
-        )
-        world_pull = st.selectbox(
-            "Worldly pull: what is trying to capture your attention?",
-            WORLD_PULLS,
-            key="scroll_world_pull",
-        )
-        monastic_longing = st.selectbox(
-            "Hunger: what holy desire is underneath it?",
-            MONASTIC_LONGINGS,
-            key="scroll_monastic_longing",
-        )
-        digital_fast = st.selectbox(
-            "Fast: how long will you stay away from the feed?",
-            DIGITAL_FAST_OPTIONS,
-            key="scroll_digital_fast",
-        )
-        prayer_rope_target = st.selectbox(
-            "Prayer: what prayer rope rule will you keep?",
-            PRAYER_ROPE_OPTIONS,
-            format_func=lambda count: f"{count} Jesus Prayers",
-            key="scroll_prayer_rope",
-        )
-        scroll_generated = st.form_submit_button("Receive an Emergency Rule", use_container_width=True)
+    if st.button("Stand to Arms", use_container_width=True, key="cell_stand_to_arms"):
+        start_stand_to_arms()
+        st.rerun()
+
+    with st.expander("Discern a custom emergency rule"):
+        with st.form("scroll_form"):
+            scroll_moment = st.radio(
+                "Moment: when are you entering?",
+                LITURGICAL_MOMENTS,
+                horizontal=True,
+                key="scroll_moment",
+            )
+            scroll_season = st.selectbox(
+                "Season: what season are you entering?",
+                LITURGICAL_SEASONS,
+                key="scroll_liturgical_season",
+            )
+            scroll_state = st.radio(
+                "Feed pull: what is happening right now?",
+                SCROLL_STATES,
+                horizontal=True,
+            )
+            renunciation = st.selectbox(
+                "Renunciation: what are you turning from?",
+                RENUNCIATIONS,
+            )
+            world_pull = st.selectbox(
+                "Worldly pull: what is trying to capture your attention?",
+                WORLD_PULLS,
+                key="scroll_world_pull",
+            )
+            monastic_longing = st.selectbox(
+                "Hunger: what holy desire is underneath it?",
+                MONASTIC_LONGINGS,
+                key="scroll_monastic_longing",
+            )
+            digital_fast = st.selectbox(
+                "Fast: how long will you stay away from the feed?",
+                DIGITAL_FAST_OPTIONS,
+                key="scroll_digital_fast",
+            )
+            prayer_rope_target = st.selectbox(
+                "Prayer: what prayer rope rule will you keep?",
+                PRAYER_ROPE_OPTIONS,
+                format_func=lambda count: f"{count} Jesus Prayers",
+                key="scroll_prayer_rope",
+            )
+            scroll_generated = st.form_submit_button("Receive an Emergency Rule", use_container_width=True)
 
     if scroll_generated:
         prepare_to_receive()
@@ -2128,6 +2386,7 @@ if rule:
             st.caption(f"Saved locally to {REFLECTIONS_PATH}.")
 
         if st.button("Return to the Entrance", use_container_width=True):
+            leave_stand_to_arms()
             st.session_state.rule = None
             st.session_state.rule_complete = False
             st.session_state.rule_silence_active = False
